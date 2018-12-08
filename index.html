@@ -25,39 +25,33 @@
 		return str;
 	};
 	window.onload = function() {
-		var regex = /Runda ([0-9]+) ([a-zA-Z0-9\u0041-\u017E]+)\nkondycja (|[0-9]+) \(([0-9]+)\)\nkondycja (|[0-9]+) ([\s]+)\(\?\?\) rany (|[0-9]+)([\s]+)\(\?\?\)\nkondycja ([\s]+)(|[0-9]+) \(([0-9]+)/,,
+			var regex = /Runda ([0-9]+) ([a-zA-Z0-9\u0041-\u017E]+)\nkondycja (|[0-9]+) \(([0-9]+)\)\nkondycja (|[0-9]+) ([\s]+)\(\?\?\) rany (|[0-9]+)([\s]+)\(\?\?\)\nkondycja (|([\s]+))(|[0-9]+) \(([0-9]+)\)(|[\s]+)rany(|[\s]+)(|[0-9]+)(|[\s]+)\(([0-9]+)\)\nkondycja (|[0-9]+)([\s]+)\(\?\?\)/,
 	    	    	calculate = function() {
 				var log = document.getElementById("log").value,
 					lines = log.match(new RegExp(regex, "mgi")),
 					exp = 0,
 					earned = {
-						damages: 0;
-						power: 0;
+						damages: 0,
+						power: 0
 					},
 					lost = {
-						damages: 0;
-						power: 0;
-					};
+						damages: 0,
+						power: 0
+					},
+					rounds = 0;
 				for (var i = 0;i<lines.length;i++) {
-					var matches = new RegExp(regex).exec(lines[i]),
-					    lost[power] += matches[3],
-					    lost[damaeges] += 0;
-					    earned[power] += 0;
-					    eanred[damages] += 0;
-						exp += 0;
-
-					exp += parseInt(matches[9]);
-					if (enemies[enemy] == undefined) {
-						enemies[enemy] = 0;
-					}
-					if (trophies[trophy] == undefined) {	
-						trophies[trophy] = 0;
-					}
-					enemies[enemy] += 1;
-					trophies[trophy] += 1;
+					var matches = new RegExp(regex).exec(lines[i]);
+					lost['power'] += parseInt(matches[3]);
+					earned['power'] += parseInt(matches[18]);
+					earned['damages'] += parseInt(matches[7]);
+					rounds = parseInt(matches[1]);
 				}
 
-				document.getElementById("result").value = "doświadczenie: "+exp+"\n\nprzeciwnicy:\n"+objToString(enemies)+"\ntrofea:\n"+objToString(trophies);
+				document.getElementById("result").value = 
+					"zebrane rany: "+earned['damages']
+					+"\nzebrana kondycja: "+earned['power']
+					+"\nzużyta kondycji: "+lost['power']
+					+"\nrund: "+rounds;
 				return false;
 			};
 		document.getElementById("form").onsubmit = calculate;
