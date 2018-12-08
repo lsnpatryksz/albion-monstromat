@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        .row {
+            margin-top: 15px;
+        }
+    </style>
+    <script  type='text/javascript'>
+	function objToString (obj) {
+		var str = '';
+		for (var p in obj) {
+			if (obj.hasOwnProperty(p)) {
+				str += p + ' : ' + obj[p] + '\n';
+			}
+		}
+		return str;
+	};
+	window.onload = function() {
+		var regex = /([0-9]+)\.([\t\s0-9]+)\n([0-9a-z ]+)\.\sMiejsce ([a-z_]+) zaatakowałeś ([a-zA-Z0-9\u0041-\u017E ]+)\n([\u0041-\u017E]+) ([a-zA-Z\u0041-\u017E0-9 ]+)\nzabrałeś trofeum ([a-zA-Z0-9\u0041-\u017E ]+) zdobyłeś doświadczenia ([0-9]+)/,
+	    	    	calculate = function() {
+				var log = document.getElementById("log").value,
+					lines = log.match(new RegExp(regex, "mgi")),
+					exp = 0,
+					enemies = {},
+					trophies = {};
+				for (var i = 0;i<lines.length;i++) {
+					var matches = new RegExp(regex).exec(lines[i]),
+					    enemy = matches[5],
+					    trophy = matches[8];
+
+					exp += parseInt(matches[9]);
+					if (enemies[enemy] == undefined) {
+						enemies[enemy] = 0;
+					}
+					if (trophies[trophy] == undefined) {	
+						trophies[trophy] = 0;
+					}
+					enemies[enemy] += 1;
+					trophies[trophy] += 1;
+				}
+
+				document.getElementById("result").value = "doświadczenie: "+exp+"\n\nprzeciwnicy:\n"+objToString(enemies)+"\ntrofea:\n"+objToString(trophies);
+				return false;
+			};
+		document.getElementById("form").onsubmit = calculate;
+	};
+    </script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h1>Monstromat</h1>
+            <p class="alert alert-info">
+                Wklej tabelę walki, żeby obliczyć statystyki
+            </p>
+            <form action="#" method="POST" id="form" class="form-inline">
+                <div class="form-group col-md-5">
+                    <textarea id="log" class="form-control" placeholder="tutaj wklej walkę" rows="10" cols="42"></textarea>
+                </div>
+                <div class="form-group col-md-1">
+                    <button type="submit" class="btn btn-primary">oblicz</button>
+                </div>
+		<div class="form-group col-md-6">
+                    <textarea id="result" class="form-control" rows="10" cols="50"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <a href="https://www.arena-albionu.pl/profil_lista_opis.php?idrycerz=730136">
+                <small>
+                    rycerz KtosiowatyKtos <img src="https://www.arena-albionu.pl/herb/730136.png" alt="herb">
+                </small>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
