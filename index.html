@@ -25,17 +25,26 @@
 		return str;
 	};
 	window.onload = function() {
-		var regex = /([0-9]+)\.([\t\s0-9]+)\n([0-9a-z ]+)\.\sMiejsce ([a-z_]+) zaatakowałeś ([a-zA-Z0-9\u0041-\u017E ]+)\n([\u0041-\u017E]+) ([a-zA-Z\u0041-\u017E0-9 ]+)\nzabrałeś trofeum ([a-zA-Z0-9\u0041-\u017E ]+) zdobyłeś doświadczenia ([0-9]+)/,
+		var regex = /Runda ([0-9]+) ([a-zA-Z0-9\u0041-\u017E]+)\nkondycja (|[0-9]+) \(([0-9]+)\)\nkondycja (|[0-9]+) ([\s]+)\(\?\?\) rany (|[0-9]+)([\s]+)\(\?\?\)\nkondycja ([\s]+)(|[0-9]+) \(([0-9]+)/,,
 	    	    	calculate = function() {
 				var log = document.getElementById("log").value,
 					lines = log.match(new RegExp(regex, "mgi")),
 					exp = 0,
-					enemies = {},
-					trophies = {};
+					earned = {
+						damages: 0;
+						power: 0;
+					},
+					lost = {
+						damages: 0;
+						power: 0;
+					};
 				for (var i = 0;i<lines.length;i++) {
 					var matches = new RegExp(regex).exec(lines[i]),
-					    enemy = matches[5],
-					    trophy = matches[8];
+					    lost[power] += matches[3],
+					    lost[damaeges] += 0;
+					    earned[power] += 0;
+					    eanred[damages] += 0;
+						exp += 0;
 
 					exp += parseInt(matches[9]);
 					if (enemies[enemy] == undefined) {
