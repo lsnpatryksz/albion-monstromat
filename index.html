@@ -43,7 +43,7 @@
 					var matches = new RegExp(regex).exec(lines[i]);
 					lost['power'] += parseInt(matches[3]);
 					earned['power'] += parseInt(matches[18]);
-					earned['damages'] += parseInt(matches[7]);
+					earned['damages'] += !isNaN(parseInt(matches[7])) ? parseInt(matches[7]) : 0;
 					rounds = parseInt(matches[1]);
 				}
 
